@@ -46,10 +46,10 @@ static int callback_dumb_increment(struct libwebsocket_context *this,
             // send response
             libwebsocket_write(wsi, &buf[LWS_SEND_BUFFER_PRE_PADDING], len,
                                LWS_WRITE_TEXT);
-            free(buf);
             break;
         }
         default:
+            printf("error: %s\n", (char *)in);
             break;
     }
     return 0;
@@ -62,7 +62,7 @@ static struct libwebsocket_protocols protocols[] = {
         0                           // per_session_data_size
     },
     {
-        "dumb-increment_protocol",  // protocol name
+        "dumb-increment-protocol",  // protocol name
         callback_dumb_increment,    // callback
         0                           // we don't use any per session data
     },

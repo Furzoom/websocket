@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            window.WebSocket = window.WebSocket || window.MozWebSocket;
+            var websocket = new  WebSocket('ws://192.168.80.233:9000',
+                                            'dumb-increment-protocol');
+            websocket.onopen = function()  {
+                $('h1').css('color', 'green');
+            };
+            websocket.onerror = function() {
+                $('h1').css('color', 'red');
+            };
+            websocket.onmessage = function(message) {
+                console.log(message.data);
+                $('div').append($('<p>', {text: message.data}));    
+            };
+            $('button').click(function(e) {
+                e.preventDefault();
+                websocket.send($('input').val());
+                $('input').val('');
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>WebSockets test</h1>
+    <form action="">
+        <input type="text">
+        <button>Send</button>
+    </form>
+    <div></div>
+</body>
+</html>
